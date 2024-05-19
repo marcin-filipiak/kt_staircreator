@@ -27,51 +27,61 @@ class MainActivity : AppCompatActivity() {
         val k_st = findViewById<TextView>(R.id.steps)
 
         button.setOnClickListener(View.OnClickListener {
-            //pobranie tekstu z edit
-            var xst = k_x_st.text.toString().toDouble()
-            var x = k_x.text.toString().toDouble()
-            var y = k_y.text.toString().toDouble()
-
-            if (xst == 0.0) {
-                xst = 20.0
-            }
 
 
+            if (!k_y.text.isNullOrEmpty() && !k_x.text.isNullOrEmpty()) {
 
-            var st = 0.0
-            var hst = 0.0
-            var end = false
+                //pobranie tekstu z edit
+                var xst = k_x_st.text.toString().toDouble()
+                //dlugosc przestrzeni na schody
+                var x = k_x.text.toString().toDouble()
+                //wysokosc do pokonania przez schody
+                var y = k_y.text.toString().toDouble()
 
-
-            do {
-                xst += 0.001
-                st = (x / xst) + 1
-                st = round(st * 100.0) / 100.0
-                hst = y / st
-                hst = round(hst * 100.0) / 100.0
-
-                if (xst >= x) {
-                    end = true
+                //domyslna wartosc glebokosci stopnia 20cm
+                if (xst == 0.0) {
+                    xst = 20.0
                 }
-                if (floor(st) == st) {
-                    if (hst <= 20 && hst >= 16) {
-                        if (xst <= 30 && xst >= 25) {
-                            end = true
+
+                var st = 0.0
+                var hst = 0.0
+                var end = false
+
+
+                do {
+                    xst += 0.001
+                    st = (x / xst) + 1
+                    st = round(st * 100.0) / 100.0
+                    hst = y / st
+                    hst = round(hst * 100.0) / 100.0
+
+                    if (xst >= x) {
+                        end = true
+                    }
+                    if (floor(st) == st) {
+                        if (hst <= 20 && hst >= 16) {
+                            if (xst <= 30 && xst >= 25) {
+                                end = true
+                            }
                         }
                     }
-                }
 
 
-            } while (end == false)
+                } while (end == false)
 
 
-            //ustawienie tekstu na edit
-            k_x_st.setText(xst.toString())
+                //ustawienie tekstu na edit
+                k_x_st.setText(xst.toString())
 
-            //ustawienie tekstu na textview
-            k_h_st.setText("Step height " + hst.toString())
-            k_st.setText("Steps " + st.toString())
-        })
+                //ustawienie tekstu na textview
+                k_h_st.setText("Step height " + hst.toString())
+                k_st.setText("Steps " + st.toString())
+            }
+            else {
+                k_st.setText("Write correct data")
+            }
+        }
+        )
 
 
     }
